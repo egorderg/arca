@@ -1,13 +1,13 @@
 {
-  "name": "arca",
-  "version": "1.0.0",
+  "name": "arka",
+  "version": "1.0.1",
   "description": "A simple and minimalistic DI container for javascript/typescript",
   "main": "index.js",
   "types": "./index.d.ts",
   "author": "Egor Dergunov <e.dergunov@outlook.de>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/egorderg/arca.git"
+    "url": "git://github.com/egorderg/arka.git"
   },
   "contributors": [
     "Egor Dergunov <e.dergunov@outlook.de>"
@@ -28,11 +28,9 @@
   ],
   "devDependencies": {
     "dotenv": "^16.0.2",
-    "mocha": "10.0.0"
+    "jest": "^29.0.2"
   },
   "scripts": {
-    "test": "mocha test/unit/",
-    "examples-multer": "node examples/multer.js",
-    "examples-koa-router": "node examples/koa-router.js"
+    "test": "jest .*.spec.js"
   }
 }

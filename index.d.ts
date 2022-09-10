@@ -1,62 +1,55 @@
-declare namespace arca {
-  type ArcaIdentifier<Value, Config> =
-    | (new (container: ArcaContainer, config: Config) => Value)
+declare namespace arka {
+  type ArkaIdentifier<Value, Config> =
+    | (new (container: ArkaContainer, config: Config) => Value)
     | (abstract new () => Value)
     | string;
 
-  type ArcaContainer = <Value, Config>(
-    use: ArcaIdentifier<Value, Config>
-  ) => Value;
+  type ArkaContainer = <Value, Config>(use: ArkaIdentifier<Value, Config>) => Value;
 
-  type ArcaServiceConstructor<BaseClass> = new (
-    container: ArcaContainer,
+  type ArkaServiceConstructor<BaseClass> = new (
+    container: ArkaContainer,
     config: never
   ) => BaseClass;
 
-  type ArcaEntry = {
-    type: "value" | "singleton";
+  type ArkaEntry = {
+    type: 'value' | 'singleton';
     use: string;
-    value: ArcaServiceConstructor<unknown> | unknown;
+    value: ArkaServiceConstructor<unknown> | unknown;
     config?: unknown;
   };
 
-  type ArcaEnvironmentCollection<Value> = {
+  type ArkaEnvironmentCollection<Value> = {
     [env: string]: Value;
   };
 
-  type ArcaServiceConfig<Config> = Partial<Config> extends Config
-    ? [t?: Config]
-    : [t: Config];
+  type ArkaServiceConfig<Config> = Partial<Config> extends Config ? [t?: Config] : [t: Config];
 
-  type ArcaServiceParameter<Value, Config> = new (
-    container: ArcaContainer,
+  type ArkaServiceParameter<Value, Config> = new (
+    container: ArkaContainer,
     config: Config
   ) => Value;
 
   function env(key: string): string;
 
-  function config<Value>(
-    envs: ArcaEnvironmentCollection<Value>,
-    defaultValue: Value
-  ): Value;
+  function config<Value>(envs: ArkaEnvironmentCollection<Value>, defaultValue: Value): Value;
 
   function provider<Use, Value extends Use, Config>(
     use: abstract new () => Use,
-    value: ArcaServiceParameter<Value, Config>,
-    ...config: ArcaServiceConfig<Config>
-  ): ArcaEntry;
+    value: ArkaServiceParameter<Value, Config>,
+    ...config: ArkaServiceConfig<Config>
+  ): ArkaEntry;
 
   function service<Value, Config>(
-    service: ArcaServiceParameter<Value, Config>,
-    ...config: ArcaServiceConfig<Config>
-  ): ArcaEntry;
+    service: ArkaServiceParameter<Value, Config>,
+    ...config: ArkaServiceConfig<Config>
+  ): ArkaEntry;
 
-  function value<Value>(use: string, value: Value): ArcaEntry;
+  function value<Value>(use: string, value: Value): ArkaEntry;
 
-  const arca: {
-    (...entries: ArcaEntry[]): ArcaContainer;
-    dotenv: (...entries: ArcaEntry[]) => ArcaContainer;
+  const arka: {
+    (...entries: ArkaEntry[]): ArkaContainer;
+    dotenv: (...entries: ArkaEntry[]) => ArkaContainer;
   };
 }
 
-export = arca;
+export = arka;

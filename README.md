@@ -3,7 +3,7 @@
 ## Install
 
 ```
-npm install arca
+npm install arka
 ```
 
 ## Features
@@ -23,7 +23,7 @@ npm install arca
 Container creation
 
 ```js
-const { arca, env, config, value, provider, service } = require("arca");
+const { arka, env, config, value, provider, service } = require("arka");
 
 abstract class PaymentService {
   abstract pay();
@@ -46,7 +46,8 @@ class UserService {
   }
 }
 
-const container = arca(
+// arka.dotenv for 'dotenv', is loaded when NODE_ENV is 'development'
+const container = arka(
   value("USER", "abc"),
   value("SECRET", env("SECRET")),
   value('OBJ', { someObject: '' }),
@@ -76,4 +77,4 @@ $ npm test
 
 ## License
 
-[MIT](https://github.com/egorderg/arca/blob/main/LICENSE)
+[MIT](https://github.com/egorderg/arka/blob/main/LICENSE)

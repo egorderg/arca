@@ -1,5 +1,5 @@
 function getId(use) {
-  if (typeof use === "string") {
+  if (typeof use === 'string') {
     return use;
   }
 
@@ -22,7 +22,7 @@ function config(envs, defaultValue) {
 
 function provider(use, value, config) {
   return {
-    type: "singleton",
+    type: 'singleton',
     use: use.name,
     value: value,
     config: config,
@@ -31,7 +31,7 @@ function provider(use, value, config) {
 
 function service(service, config) {
   return {
-    type: "singleton",
+    type: 'singleton',
     use: service.name,
     value: service,
     config: config,
@@ -40,29 +40,29 @@ function service(service, config) {
 
 function value(use, value) {
   return {
-    type: "value",
+    type: 'value',
     use,
     value,
   };
 }
 
-function arca(...entries) {
+function arka(...entries) {
   const collection = {};
   const values = {};
 
   for (const entry of entries) {
     if (Object.prototype.hasOwnProperty.call(collection, entry.use)) {
-      throw new Error(`Duplicate key in arca container ${entry.use}`);
+      throw new Error(`Duplicate key in arka container ${entry.use}`);
     }
 
     collection[entry.use] = entry;
 
-    if (entry.type === "value") {
+    if (entry.type === 'value') {
       values[entry.use] = entry.value;
     }
   }
 
-  return (use) => {
+  const container = (use) => {
     const id = getId(use);
 
     if (Object.prototype.hasOwnProperty.call(values, id)) {
@@ -77,17 +77,19 @@ function arca(...entries) {
     const ctor = entry.value;
     const config = entry.config;
 
-    return (values[id] = new ctor(this, config));
+    return (values[id] = new ctor(container, config));
   };
+
+  return container;
 }
 
-arca.dotenv = (...entries) => {
-  if (process.env.NODE_ENV === "development") {
+arka.dotenv = (...entries) => {
+  if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require("dotenv").config();
+    require('dotenv').config();
   }
 
-  return arca(...entries);
+  return arka(...entries);
 };
 
 module.exports = {
@@ -96,5 +98,5 @@ module.exports = {
   provider,
   service,
   value,
-  arca,
+  arka,
 };
